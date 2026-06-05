@@ -2,87 +2,217 @@
 // Porsche 911 (996) Maintenance Dashboard Logic
 // ==========================================================================
 
-// Default High-Fidelity Demo Data
+// Default Porsche 911 (996) Real Log Book Records
 const DEFAULT_RECORDS = [
     {
-        id: "rec-1",
-        title: "Purchase Inspection & Oil Service",
-        date: "2022-04-10",
-        mileage: 60100,
-        cost: 180.00,
+        id: "rec_1",
+        title: "2x Dunlop Tyres",
+        date: "2009-03-14",
+        mileage: 60588,
+        cost: 357.0,
         category: "General",
-        parts: "Mobil 1 FS 0W-40, Mahle Oil Filter, Crush Washer",
-        notes: "Pre-purchase inspection checklist passed. Clean cylinder bores verified via scoping. Oil changed, oil filter inspected for any metal flakes (none found). Replaced sump plug crush washer."
+        parts: "",
+        notes: "Workshop: tyreshops"
     },
     {
-        id: "rec-2",
-        title: "IMS Bearing Retrofit & Rear Main Seal (RMS) Upgrade",
-        date: "2022-08-15",
-        mileage: 62450,
-        cost: 1650.00,
-        category: "Preventive",
-        parts: "LN Engineering Single-Row Ceramic Retrofit Kit, Genuine Porsche PTFE RMS",
-        notes: "Proactive upgrade of the IMS bearing using LN Engineering Ceramic kit. Factory single-row bearing showed minor seals wear but was still intact. Replaced Rear Main Seal (weeping slightly) with updated PTFE seal. Clutch plate thickness measured (7.8mm, good), reassembled."
-    },
-    {
-        id: "rec-3",
-        title: "Front Radiators Cleanout & Coolant Flush",
-        date: "2023-01-20",
-        mileage: 65200,
-        cost: 120.00,
+        id: "rec_2",
+        title: "Expansion tank",
+        date: "2009-04-08",
+        mileage: 60793,
+        cost: 100.96,
         category: "General",
-        parts: "Porsche OAT Coolant, Cable Ties",
-        notes: "Removed front bumper cover. Cleared substantial build-up of leaves, road grit, and organic debris trapped between the A/C condensers and radiators. Cleaned corroded radiator lower channels. Flushed cooling system with fresh OEM Porsche Pink coolant."
+        parts: "Door mirror glass, Expansion tank cap",
+        notes: "Workshop: euro car parts. Breakdown: Expansion tank: £75.77, Door mirror glass: £14.75, Expansion tank cap: £10.44"
     },
     {
-        id: "rec-4",
-        title: "Front & Rear Brake Discs, Pads, and Fluid Flush",
-        date: "2023-07-14",
-        mileage: 70800,
-        cost: 520.00,
-        category: "Brakes",
-        parts: "Textar Brake Pads, Sebro Brake Discs, Wear Sensors, Motul RBF 600 Brake Fluid",
-        notes: "Replaced front and rear brake pads and discs. Sebro cross-drilled rotors installed. New caliper damping plates and wear indicator cables. Flushed brake hydraulic system with high-temperature Motul RBF 600 fluid."
-    },
-    {
-        id: "rec-5",
-        title: "Pierburg Water Pump & LN Low-Temp Thermostat (160°F)",
-        date: "2024-03-05",
-        mileage: 74120,
-        cost: 480.00,
-        category: "Preventive",
-        parts: "Pierburg Composite Impeller Water Pump, LN Engineering 160°F / 71°C Thermostat",
-        notes: "Proactively replaced water pump to prevent plastic impeller blades fatigue. Installed LN Engineering low-temperature thermostat to open cooling circuit early, reducing hot spots in cylinder banks 4-6. Refilled system using vacuum fill tool."
-    },
-    {
-        id: "rec-6",
-        title: "Major Service, Beru 997 Coils & Spark Plug Tubes",
-        date: "2025-02-18",
-        mileage: 81050,
-        cost: 750.00,
-        category: "Engine",
-        parts: "Beru 997 Coils, NGK BKR6EK Spark Plugs, Plugs Tubes, Motul 8100 X-cess 5W-40, Filters",
-        notes: "Replaced all 6 spark plugs. Noticed minor oil in plug wells, replaced all 6 plastic spark plug tubes and O-rings. Upgraded cracked factory coil packs to larger 997-spec Beru coil packs (longer bolts used). Changed oil to Motul 8100 X-cess 5W-40 (higher ZDDP). Replaced air, cabin, and fuel filters."
-    },
-    {
-        id: "rec-7",
-        title: "Gearbox Oil Service & Shift Cable Calibration",
-        date: "2025-10-12",
-        mileage: 84600,
-        cost: 210.00,
-        category: "Transmission",
-        parts: "Mobil 1 PTX 75W-90 Gearbox Oil, New Drain/Fill Plugs",
-        notes: "Drained 6-speed manual transaxle. Refilled with Mobil PTX 75W-90 oil (cured stiff shift when gearbox is cold). Adjusted shift linkage cables at the shifter box underneath the center console."
-    },
-    {
-        id: "rec-8",
-        title: "Suspension Refresh (TRW Coffin Arms & 4-Wheel Alignment)",
-        date: "2026-04-02",
-        mileage: 87450,
-        cost: 890.00,
+        id: "rec_3",
+        title: "Arm",
+        date: "2010-06-25",
+        mileage: 66478,
+        cost: 235.59,
         category: "Suspension",
-        parts: "TRW Lower Control Arms (Coffin Arms), Meyle HD Drop Links, Inner/Outer Tie Rods",
-        notes: "Addressed squeaking/groaning front suspension. Replaced front lower control arms (coffin arms) and outer tie rod ends. Installed new front sway bar drop links. Performed a full Hunter 4-wheel laser alignment to factory specs. Handling is significantly sharpened."
+        parts: "Nute and bolts",
+        notes: "Workshop: Northway. Breakdown: Arm: £193.88, Nute and bolts: £41.71"
+    },
+    {
+        id: "rec_4",
+        title: "Maj Service",
+        date: "2010-10-06",
+        mileage: 68528,
+        cost: 668.85,
+        category: "Brakes",
+        parts: "Brake Fluid, Rear Brake Pads",
+        notes: "Workshop: Unknown"
+    },
+    {
+        id: "rec_5",
+        title: "Oil pressure sender",
+        date: "2011-07-05",
+        mileage: 73175,
+        cost: 81.35,
+        category: "Engine",
+        parts: "",
+        notes: "Workshop: Northway"
+    },
+    {
+        id: "rec_6",
+        title: "Minor service",
+        date: "2011-10-19",
+        mileage: 74848,
+        cost: 549.55,
+        category: "Engine",
+        parts: "wiper blades, air mass sensor, oil filter , pollen filter",
+        notes: "Workshop: Northway"
+    },
+    {
+        id: "rec_7",
+        title: "O/S number plate assembly",
+        date: "2011-11-08",
+        mileage: 75164,
+        cost: 150.0,
+        category: "General",
+        parts: "Number plate light assembly, n/s/f wing",
+        notes: "Workshop: swindon tehcnial services (swan hill garage)"
+    },
+    {
+        id: "rec_8",
+        title: "Clutch repair",
+        date: "2012-05-11",
+        mileage: 76914,
+        cost: 751.58,
+        category: "Transmission",
+        parts: "",
+        notes: "Workshop: Northway"
+    },
+    {
+        id: "rec_9",
+        title: "Radiator",
+        date: "2012-12-15",
+        mileage: 78424,
+        cost: 417.05,
+        category: "Engine",
+        parts: "coolant, clips",
+        notes: "Workshop: Northway"
+    },
+    {
+        id: "rec_10",
+        title: "Major service",
+        date: "2015-07-14",
+        mileage: 86900,
+        cost: 426.0,
+        category: "Engine",
+        parts: "Oil filter, Pollen filter, air filter, fuel filter, spark plugs, sump washer, screen wash, poly belt change",
+        notes: "Workshop: Northway. Breakdown: Major service: £40.50, poly belt change: £385.50"
+    },
+    {
+        id: "rec_11",
+        title: "Major Service",
+        date: "2020-11-20",
+        mileage: 87510,
+        cost: 0.0,
+        category: "Brakes",
+        parts: "Bosche 80 A/H battery, Spark plug change, n/s/r brake line, New A/C condensors, A/C recharge, 4x tyres , Exhaust fixings, Drive belt replacement, (all done as pre-purchase)",
+        notes: "Workshop: Northway"
+    },
+    {
+        id: "rec_12",
+        title: "Oil change",
+        date: "2021-11-20",
+        mileage: 87634,
+        cost: 233.99,
+        category: "Engine",
+        parts: "Mobil 1 0x40, Oil filter, Carplay Head Unit, Seat Update (Drivers)",
+        notes: "Workshop: Home. Breakdown: Mobil 1 0x40: £48.99, Seat Update (Drivers): £185.00"
+    },
+    {
+        id: "rec_13",
+        title: "Billet gas pedal hinge",
+        date: "2022-04-11",
+        mileage: 87683,
+        cost: 603.04,
+        category: "Suspension",
+        parts: "Wheel bolt x2, Column stalk unit, stalk cap, Seat Update (Passengers)",
+        notes: "Workshop: Home. Breakdown: Billet gas pedal hinge: £75.65, Wheel bolt x2: £3.33, Column stalk unit: £293.68, stalk cap: £5.38, Seat Update (Passengers): £225.00"
+    },
+    {
+        id: "rec_14",
+        title: "Oil seperator",
+        date: "2022-06-17",
+        mileage: 87705,
+        cost: 755.79,
+        category: "Engine",
+        parts: "spark plugs, Coils, Rear Main Oil seal",
+        notes: "Workshop: Norhway. Breakdown: Oil seperator: £69.11, spark plugs: £34.92, Coils: £192.00, Rear Main Oil seal: £459.76"
+    },
+    {
+        id: "rec_15",
+        title: "Key Head replacement x2",
+        date: "2022-08-31",
+        mileage: 87731,
+        cost: 765.32,
+        category: "General",
+        parts: "Key Head units, Engine mounts x2",
+        notes: "Workshop: OPC Porstmouth. Breakdown: Key Head replacement x2: £102.00, Key Head units: £292.32, Engine mounts x2: £371.00"
+    },
+    {
+        id: "rec_16",
+        title: "Minor Service",
+        date: "2022-11-11",
+        mileage: 87756,
+        cost: 1217.54,
+        category: "Suspension",
+        parts: "Front Lower Arm, Column Stalk Install, Engine Mounts Fitment, Cruise control Activation, Alarm Diagnosis",
+        notes: "Workshop: Northway. Breakdown: Minor Service: £46.50, Alarm Diagnosis: £1171.04"
+    },
+    {
+        id: "rec_17",
+        title: "Anti roll bar drop link",
+        date: "2022-11-20",
+        mileage: 87759,
+        cost: 130.38,
+        category: "Suspension",
+        parts: "",
+        notes: "Workshop: elkin motors"
+    },
+    {
+        id: "rec_18",
+        title: "Failed water pump",
+        date: "2023-01-13",
+        mileage: 87777,
+        cost: 999.47,
+        category: "Engine",
+        parts: "",
+        notes: "Workshop: OPC Portsmouth"
+    },
+    {
+        id: "rec_19",
+        title: "AOS",
+        date: "2023-08-22",
+        mileage: 87853,
+        cost: 1105.75,
+        category: "Engine",
+        parts: "RMS, oil filler neck, o ring",
+        notes: "Workshop: Northway. Breakdown: AOS: £1005.13, RMS: £25.55, oil filler neck: £70.52, o ring: £4.55"
+    },
+    {
+        id: "rec_20",
+        title: "Full suspension refresh",
+        date: "2024-08-19",
+        mileage: 87976,
+        cost: 7917.37,
+        category: "Suspension",
+        parts: "Left Radiator, Right Radiator, Coolant, Radiator breather hose Left, Radiator Breather Host Right",
+        notes: "Workshop: Northway. Breakdown: Full suspension refresh: £7572.35, Left Radiator: £113.42, Right Radiator: £113.41, Coolant: £70.10, Radiator breather hose Left: £15.70, Radiator Breather Host Right: £32.39"
+    },
+    {
+        id: "rec_21",
+        title: "Full geo setup",
+        date: "2025-09-08",
+        mileage: 88108,
+        cost: 500.0,
+        category: "Suspension",
+        parts: "Rear tyres",
+        notes: "Workshop: Centre gravity"
     }
 ];
 
@@ -105,8 +235,8 @@ function loadData() {
         try {
             serviceRecords = JSON.parse(stored);
         } catch (e) {
-            console.error("Error parsing stored service history, resetting to default.", e);
-            serviceRecords = [...DEFAULT_RECORDS];
+            console.error("Error parsing stored service history, resetting to empty.", e);
+            serviceRecords = [];
             saveData();
         }
     } else {
@@ -139,18 +269,31 @@ function closeConfirmModal() {
     pendingConfirmAction = null;
 }
 
-// Reset to Default Demo Data
-function resetDemoData() {
-    showConfirmModal(
-        `<i class="fa-solid fa-triangle-exclamation"></i> Reset Dashboard Data`,
-        `Are you sure you want to reset all service records to the default Porsche 996 maintenance timeline? This will erase all your custom logged entries.`,
-        `Reset Demo Data`,
-        () => {
-            serviceRecords = [...DEFAULT_RECORDS];
-            saveData();
-            updateDashboard();
-        }
-    );
+// Sidebar dynamic action: Clear Data or Load Log Book Data
+function handleSidebarAction() {
+    if (serviceRecords.length === 0) {
+        showConfirmModal(
+            `<i class="fa-solid fa-circle-info"></i> Load Log Book Data`,
+            `Do you want to populate the dashboard with the Porsche 911 (996) maintenance log book records from X82HLDLogBook.xlsx?`,
+            `Load Log Book`,
+            () => {
+                serviceRecords = [...DEFAULT_RECORDS];
+                saveData();
+                updateDashboard();
+            }
+        );
+    } else {
+        showConfirmModal(
+            `<i class="fa-solid fa-triangle-exclamation"></i> Clear Dashboard Data`,
+            `Are you sure you want to delete all service records? This will permanently erase all your logged entries.`,
+            `Clear All Data`,
+            () => {
+                serviceRecords = [];
+                saveData();
+                updateDashboard();
+            }
+        );
+    }
 }
 
 // Bind Event Listeners
@@ -165,7 +308,7 @@ function initEventListeners() {
     });
 
     // Reset button
-    document.getElementById("btn-reset-data").addEventListener("click", resetDemoData);
+    document.getElementById("btn-reset-data").addEventListener("click", handleSidebarAction);
 
     // Search and Filters
     document.getElementById("log-search").addEventListener("input", filterAndRenderTimeline);
@@ -213,29 +356,45 @@ function updateDashboard() {
     updateChecklist();
     filterAndRenderTimeline();
     renderCharts();
+    updateSidebarButton();
+}
+
+// Update Sidebar Action Button
+function updateSidebarButton() {
+    const btn = document.getElementById("btn-reset-data");
+    if (!btn) return;
+    if (serviceRecords.length === 0) {
+        btn.innerHTML = `<i class="fa-solid fa-download"></i> Load Log Book`;
+        btn.classList.remove("btn-clear-danger");
+    } else {
+        btn.innerHTML = `<i class="fa-solid fa-trash-can"></i> Clear All Data`;
+        btn.classList.add("btn-clear-danger");
+    }
 }
 
 // Calculate KPI Cards
 function calculateStats() {
     const totalCost = serviceRecords.reduce((sum, rec) => sum + rec.cost, 0);
     
-    // Current Odometer: Default baseline is 88,200 mi, or the maximum service log mileage
-    let currentMileage = 88200;
+    // Current Odometer & Tracked Mileage calculation
+    let currentMileage = 0;
+    let baseMileage = 0;
+    let trackedMiles = 0;
     if (serviceRecords.length > 0) {
         const maxServiceMileage = Math.max(...serviceRecords.map(r => r.mileage));
-        currentMileage = Math.max(currentMileage, maxServiceMileage);
+        const minServiceMileage = Math.min(...serviceRecords.map(r => r.mileage));
+        currentMileage = maxServiceMileage;
+        baseMileage = minServiceMileage;
+        trackedMiles = currentMileage - baseMileage;
     }
 
-    // Cost Per Mile calculation (Baseline purchase at 60,100 miles)
-    const baseMileage = 60100;
-    const trackedMiles = currentMileage - baseMileage;
     const costPerMile = trackedMiles > 0 ? (totalCost / trackedMiles) : 0;
 
     // Last service date & next oil service mileage
     let lastServiceDateText = "N/A";
-    let nextServiceText = "5,000 mi";
-    let healthStatus = "Excellent";
-    let healthCardClass = "alert-status-green";
+    let nextServiceText = "N/A";
+    let healthStatus = "No Records";
+    let healthCardClass = "alert-status-yellow";
 
     if (serviceRecords.length > 0) {
         // Sort by date to get latest
@@ -271,6 +430,10 @@ function calculateStats() {
                 healthStatus = "Excellent";
                 healthCardClass = "alert-status-green";
             }
+        } else {
+            nextServiceText = "5,000 mi";
+            healthStatus = "Excellent";
+            healthCardClass = "alert-status-green";
         }
     }
 
@@ -393,6 +556,17 @@ function filterAndRenderTimeline() {
     const timelineContainer = document.getElementById("timeline-list");
     timelineContainer.innerHTML = "";
 
+    if (serviceRecords.length === 0) {
+        timelineContainer.innerHTML = `
+            <div class="timeline-empty-state" style="text-align: center; padding: 40px 20px; color: var(--text-muted);">
+                <i class="fa-solid fa-screwdriver-wrench" style="font-size: 32px; margin-bottom: 12px; color: var(--text-muted); opacity: 0.5;"></i>
+                <p style="font-weight: 500; font-size: 14px; color: var(--text-secondary);">No service records logged yet.</p>
+                <p style="font-size: 12px; color: var(--text-muted); margin-top: 6px;">Click 'Add Service Record' above to start tracking your vehicle's history.</p>
+            </div>
+        `;
+        return;
+    }
+
     if (filtered.length === 0) {
         timelineContainer.innerHTML = `
             <div class="timeline-empty-state">
@@ -469,6 +643,56 @@ function formatDate(dateStr) {
 
 // Chart Renderings
 function renderCharts() {
+    const categoryChartWrapper = document.getElementById("categoryChart").parentNode;
+    const trendChartWrapper = document.getElementById("trendChart").parentNode;
+
+    if (serviceRecords.length === 0) {
+        // Destroy existing chart instances if any
+        if (categoryChartInstance) {
+            categoryChartInstance.destroy();
+            categoryChartInstance = null;
+        }
+        if (trendChartInstance) {
+            trendChartInstance.destroy();
+            trendChartInstance = null;
+        }
+
+        // Show placeholders
+        if (!document.getElementById("category-chart-placeholder")) {
+            const placeholder = document.createElement("div");
+            placeholder.id = "category-chart-placeholder";
+            placeholder.className = "chart-placeholder";
+            placeholder.innerHTML = `
+                <div class="placeholder-content">
+                    <i class="fa-solid fa-chart-pie"></i>
+                    <p>No service data logged yet</p>
+                </div>
+            `;
+            categoryChartWrapper.appendChild(placeholder);
+        }
+        
+        if (!document.getElementById("trend-chart-placeholder")) {
+            const placeholder = document.createElement("div");
+            placeholder.id = "trend-chart-placeholder";
+            placeholder.className = "chart-placeholder";
+            placeholder.innerHTML = `
+                <div class="placeholder-content">
+                    <i class="fa-solid fa-chart-line"></i>
+                    <p>No service data logged yet</p>
+                </div>
+            `;
+            trendChartWrapper.appendChild(placeholder);
+        }
+        return;
+    }
+
+    // Hide placeholders if present
+    const p1 = document.getElementById("category-chart-placeholder");
+    if (p1) p1.remove();
+    
+    const p2 = document.getElementById("trend-chart-placeholder");
+    if (p2) p2.remove();
+
     // 1. Cost Allocation by Category (Doughnut Chart)
     const categories = ["Engine", "Transmission", "Suspension", "Brakes", "Preventive", "General"];
     const categoryTotals = categories.map(cat => {
@@ -677,9 +901,9 @@ function openServiceModal(recordId = null) {
         document.getElementById("form-date").value = today;
         
         // Pre-fill mileage with current estimation
-        let currentMileage = 88200;
+        let currentMileage = "";
         if (serviceRecords.length > 0) {
-            currentMileage = Math.max(currentMileage, ...serviceRecords.map(r => r.mileage));
+            currentMileage = Math.max(0, ...serviceRecords.map(r => r.mileage));
         }
         document.getElementById("form-mileage").value = currentMileage;
     }
