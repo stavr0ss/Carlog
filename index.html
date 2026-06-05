@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Detailed maintenance log, cost analytics, and preventive maintenance checklist for Porsche 911 (Type 996) 3.4L Carrera.">
+    <title>Porsche 911 (996) 3.4L Maintenance Dashboard</title>
+    
+    <!-- Typography & Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Chart.js for data visualization -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- Custom Stylesheet -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Main Sidebar / Left Nav -->
+        <aside class="sidebar">
+            <div class="brand">
+                <span class="brand-porsche">PORSCHE</span>
+                <span class="brand-model">911 <span class="model-badge">996</span></span>
+            </div>
+            
+            <nav class="side-nav">
+                <a href="#dashboard" class="nav-item active" id="nav-dash"><i class="fa-solid fa-chart-line"></i> Dashboard</a>
+                <a href="#timeline" class="nav-item" id="nav-logs"><i class="fa-solid fa-screwdriver-wrench"></i> Service History</a>
+                <a href="#preventive" class="nav-item" id="nav-checklist"><i class="fa-solid fa-shield-halved"></i> 3.4L Preventives</a>
+                <a href="#about" class="nav-item" id="nav-guide"><i class="fa-solid fa-circle-info"></i> 996 Buyer's Guide</a>
+            </nav>
+
+            <div class="sidebar-car-card">
+                <div class="car-card-img-container">
+                    <img src="porsche_996.png" alt="Porsche 996 Carrera 3.4" id="sidebar-car-img">
+                </div>
+                <div class="car-card-details">
+                    <h4>Carrera 3.4L (1999)</h4>
+                    <p class="car-spec-vin">VIN: WP0AA299XYS60XXXX</p>
+                    <div class="car-spec-tags">
+                        <span class="spec-tag">M96.01</span>
+                        <span class="spec-tag">6-Speed</span>
+                        <span class="spec-tag">C2 Coupe</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sidebar-footer">
+                <button type="button" id="btn-reset-data" class="btn btn-secondary btn-sm"><i class="fa-solid fa-rotate-left"></i> Reset Demo Data</button>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <!-- Top Header (Dynamic Info) -->
+            <header class="top-header">
+                <div class="header-title">
+                    <h1>Maintenance & Service Log</h1>
+                    <p class="subtitle">Complete technical history and health tracking index</p>
+                </div>
+                <div class="header-actions">
+                    <button id="btn-open-form" class="btn btn-primary"><i class="fa-solid fa-plus"></i> Add Service Record</button>
+                </div>
+            </header>
+
+            <!-- Dashboard View Section -->
+            <section id="dashboard" class="content-section">
+                <!-- Stat Cards Grid -->
+                <div class="stats-grid">
+                    <div class="stat-card" id="card-total-cost">
+                        <div class="stat-icon"><i class="fa-solid fa-sterling-sign"></i></div>
+                        <div class="stat-info">
+                            <span class="stat-label">Total Investment</span>
+                            <h2 class="stat-value" id="val-total-cost">£0.00</h2>
+                            <span class="stat-subtext" id="val-cost-per-mile">£0.00 / mile</span>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card" id="card-mileage">
+                        <div class="stat-icon"><i class="fa-solid fa-gauge"></i></div>
+                        <div class="stat-info">
+                            <span class="stat-label">Odometer Reading</span>
+                            <h2 class="stat-value" id="val-mileage">0 mi</h2>
+                            <span class="stat-subtext" id="val-miles-tracked">0 mi tracked</span>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card" id="card-records">
+                        <div class="stat-icon"><i class="fa-solid fa-clipboard-list"></i></div>
+                        <div class="stat-info">
+                            <span class="stat-label">Service Events</span>
+                            <h2 class="stat-value" id="val-record-count">0</h2>
+                            <span class="stat-subtext" id="val-last-service-date">Last service: N/A</span>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card alert-status-green" id="card-status">
+                        <div class="stat-icon"><i class="fa-solid fa-heart-pulse"></i></div>
+                        <div class="stat-info">
+                            <span class="stat-label">Vehicle Health Status</span>
+                            <h2 class="stat-value" id="val-health-status">Excellent</h2>
+                            <span class="stat-subtext" id="val-next-service-miles">Next service: 4,500 mi</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Charts Grid -->
+                <div class="charts-grid">
+                    <div class="chart-container-card">
+                        <h3><i class="fa-solid fa-chart-pie"></i> Cost Allocation by Category</h3>
+                        <div class="chart-wrapper">
+                            <canvas id="categoryChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="chart-container-card">
+                        <h3><i class="fa-solid fa-chart-area"></i> Cumulative Maintenance Cost</h3>
+                        <div class="chart-wrapper">
+                            <canvas id="trendChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Grid Layout for Timeline and Sidebar Panels -->
+            <div class="dashboard-body-grid">
+                <!-- Timeline/Logs Panel -->
+                <div class="timeline-panel">
+                    <div class="panel-header">
+                        <h2><i class="fa-solid fa-clock-rotate-left"></i> Service Timeline</h2>
+                        <div class="filter-controls">
+                            <div class="search-bar">
+                                <i class="fa-solid fa-magnifying-glass"></i>
+                                <input type="text" id="log-search" placeholder="Search invoices, parts, or shops...">
+                            </div>
+                            <div class="filter-dropdowns">
+                                <select id="filter-category" class="select-control">
+                                    <option value="all">All Categories</option>
+                                    <option value="Engine">Engine</option>
+                                    <option value="Transmission">Transmission</option>
+                                    <option value="Suspension">Suspension & Steering</option>
+                                    <option value="Brakes">Braking System</option>
+                                    <option value="Preventive">Preventive Upgrade</option>
+                                    <option value="General">General Maintenance</option>
+                                </select>
+                                <select id="sort-order" class="select-control">
+                                    <option value="date-desc">Newest First</option>
+                                    <option value="date-asc">Oldest First</option>
+                                    <option value="cost-desc">Highest Cost</option>
+                                    <option value="mileage-desc">Highest Mileage</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Dynamic Timeline Node Container -->
+                    <div class="timeline-container" id="timeline-list">
+                        <!-- Javascript will inject timeline-item elements here -->
+                    </div>
+                </div>
+
+                <!-- Side Panels Column -->
+                <div class="side-panels-column">
+                    <!-- Critical M96 Engine Preventive Tracker -->
+                    <div class="side-panel-card preventive-tracker-card" id="preventive">
+                        <div class="panel-card-header">
+                            <h3><i class="fa-solid fa-shield-virus"></i> M96 Engine Health Checklist</h3>
+                            <span class="engine-model-sub">Critical 3.4L Upgrades</span>
+                        </div>
+                        <div class="checklist-items">
+                            <div class="checklist-item" id="item-ims">
+                                <div class="item-main">
+                                    <label class="checkbox-container">
+                                        <input type="checkbox" id="chk-ims" disabled>
+                                        <span class="checkmark"></span>
+                                        <span class="item-title">IMS Bearing Retrofit</span>
+                                    </label>
+                                    <span class="status-badge badge-green" id="badge-ims">Done</span>
+                                </div>
+                                <div class="item-details">
+                                    <p>Standard single/dual row bearings are prone to failure. LN Engineering Ceramic Retrofit installed.</p>
+                                    <span class="item-meta" id="meta-ims">Completed @ 62,450 mi</span>
+                                </div>
+                            </div>
+                            
+                            <div class="checklist-item" id="item-rms">
+                                <div class="item-main">
+                                    <label class="checkbox-container">
+                                        <input type="checkbox" id="chk-rms" disabled>
+                                        <span class="checkmark"></span>
+                                        <span class="item-title">RMS (Rear Main Seal)</span>
+                                    </label>
+                                    <span class="status-badge badge-green" id="badge-rms">Done</span>
+                                </div>
+                                <div class="item-details">
+                                    <p>Prone to weeping oil. Upgraded to the revised Teflon seal during IMS retrofit.</p>
+                                    <span class="item-meta" id="meta-rms">Completed @ 62,450 mi</span>
+                                </div>
+                            </div>
+
+                            <div class="checklist-item" id="item-waterpump">
+                                <div class="item-main">
+                                    <label class="checkbox-container">
+                                        <input type="checkbox" id="chk-waterpump" disabled>
+                                        <span class="checkmark"></span>
+                                        <span class="item-title">Water Pump & Low-Temp T-Stat</span>
+                                    </label>
+                                    <span class="status-badge badge-green" id="badge-waterpump">Done</span>
+                                </div>
+                                <div class="item-details">
+                                    <p>OEM plastic impeller cracks or gets worn. Upgraded to high-flow pump & 160°F / 71°C thermostat.</p>
+                                    <span class="item-meta" id="meta-waterpump">Completed @ 74,120 mi</span>
+                                </div>
+                            </div>
+
+                            <div class="checklist-item" id="item-aos">
+                                <div class="item-main">
+                                    <label class="checkbox-container">
+                                        <input type="checkbox" id="chk-aos" disabled>
+                                        <span class="checkmark"></span>
+                                        <span class="item-title">Air Oil Separator (AOS)</span>
+                                    </label>
+                                    <span class="status-badge badge-yellow" id="badge-aos">Pending</span>
+                                </div>
+                                <div class="item-details">
+                                    <p>Diaphragm rupture causes oil smoke, high crankcase vacuum, and potential hydrolock. Recommended replacement interval: 40-50k mi.</p>
+                                    <span class="item-meta" id="meta-aos">Last changed: Unknown</span>
+                                </div>
+                            </div>
+                            
+                            <div class="checklist-item" id="item-coils">
+                                <div class="item-main">
+                                    <label class="checkbox-container">
+                                        <input type="checkbox" id="chk-coils" disabled>
+                                        <span class="checkmark"></span>
+                                        <span class="item-title">Coil Packs & Spark Plug Tubes</span>
+                                    </label>
+                                    <span class="status-badge badge-green" id="badge-coils">Done</span>
+                                </div>
+                                <div class="item-details">
+                                    <p>Spark plug tubes leak oil onto coils; heat cracks the coils causing misfires under load. Upgraded to Beru 997-style coils.</p>
+                                    <span class="item-meta" id="meta-coils">Completed @ 81,050 mi</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 996 Tech Specs & Guide Panel -->
+                    <div class="side-panel-card buyer-guide-card" id="about">
+                        <h3><i class="fa-solid fa-circle-info"></i> 3.4L Carrera Specification Profile</h3>
+                        <table class="specs-table">
+                            <tr>
+                                <td>Engine Code</td>
+                                <td>M96.01 / M96.02 (Flat-6)</td>
+                            </tr>
+                            <tr>
+                                <td>Displacement</td>
+                                <td>3,387 cc (3.4 Litres)</td>
+                            </tr>
+                            <tr>
+                                <td>Max Power</td>
+                                <td>300 bhp @ 6,800 RPM</td>
+                            </tr>
+                            <tr>
+                                <td>Max Torque</td>
+                                <td>350 Nm @ 4,600 RPM</td>
+                            </tr>
+                            <tr>
+                                <td>Redline</td>
+                                <td>7,300 RPM</td>
+                            </tr>
+                            <tr>
+                                <td>Oil Capacity</td>
+                                <td>9.15 Litres (Refill)</td>
+                            </tr>
+                            <tr>
+                                <td>Recommended Oil</td>
+                                <td>Mobil 1 FS 0W-40 / Motul X-Cess 5W-40</td>
+                            </tr>
+                            <tr>
+                                <td>Critical Warning</td>
+                                <td>Keep front radiator ducts clean of leaves!</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Sliding Modal Form for Adding/Editing Service Records -->
+    <div class="modal-backdrop" id="service-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modal-title"><i class="fa-solid fa-plus-circle"></i> Log Service Event</h3>
+                <button class="modal-close" id="btn-close-modal"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <form id="service-form" class="modal-body">
+                <input type="hidden" id="form-record-id">
+                
+                <div class="form-group">
+                    <label for="form-title">Service Description / Title <span class="required">*</span></label>
+                    <input type="text" id="form-title" placeholder="e.g., Engine Oil & Filter Change" required>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="form-date">Service Date <span class="required">*</span></label>
+                        <input type="date" id="form-date" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="form-mileage">Odometer Reading (mi) <span class="required">*</span></label>
+                        <input type="number" id="form-mileage" min="0" placeholder="e.g., 85400" required>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="form-cost">Total Invoice Cost (£) <span class="required">*</span></label>
+                        <input type="number" id="form-cost" min="0" step="0.01" placeholder="e.g., 185.50" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="form-category">Maintenance Category <span class="required">*</span></label>
+                        <select id="form-category" required>
+                            <option value="Engine">Engine</option>
+                            <option value="Transmission">Transmission</option>
+                            <option value="Suspension">Suspension & Steering</option>
+                            <option value="Brakes">Braking System</option>
+                            <option value="Preventive">Preventive Upgrade</option>
+                            <option value="General">General Maintenance</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="form-parts">Parts Used / Upgraded</label>
+                    <input type="text" id="form-parts" placeholder="e.g., Mobil 1 0W40 oil, Mahle oil filter, crush washer">
+                </div>
+                
+                <div class="form-group">
+                    <label for="form-notes">Technician & Service Notes</label>
+                    <textarea id="form-notes" rows="4" placeholder="Detailed service notes, parts brand, recommendations for next service..."></textarea>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" id="btn-cancel-form" class="btn btn-secondary">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Service Record</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Sliding Modal Form for Custom Confirmations (Reset/Delete) -->
+    <div class="modal-backdrop" id="confirm-modal">
+        <div class="modal-content" style="max-width: 450px;">
+            <div class="modal-header">
+                <h3 id="confirm-modal-title"><i class="fa-solid fa-circle-exclamation"></i> Confirm Action</h3>
+                <button class="modal-close" id="btn-close-confirm"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="modal-body">
+                <p id="confirm-modal-message" style="line-height: 1.5; color: var(--text-secondary); margin-bottom: 20px; font-size: 14px;">Are you sure you want to proceed?</p>
+                <div class="form-actions">
+                    <button type="button" id="btn-cancel-confirm" class="btn btn-secondary">Cancel</button>
+                    <button type="button" id="btn-action-confirm" class="btn btn-primary">Proceed</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="app.js"></script>
+</body>
+</html>
